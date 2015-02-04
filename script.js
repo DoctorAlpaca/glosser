@@ -21,7 +21,7 @@ var RedditConverter = function (output, smallCaps) {
 
 	this.useSmallCaps = smallCaps;
 	this.output = output;
-}
+};
 RedditConverter.prototype.addPart = function(orig, gloss) {
 	this.orig += "***" + orig.join("") + "***";
 	for (var i = 0; i < gloss.length; i += 1) {
@@ -41,7 +41,7 @@ RedditConverter.prototype.addPart = function(orig, gloss) {
 	this.centerLine += ":-|";
 	this.gloss += "|";
 };
-RedditConverter.prototype.endLine = function(meaning = "") {
+RedditConverter.prototype.endLine = function(meaning) {
 	this.lines += this.header + "\n";
 	this.lines += this.centerLine + "\n";
 	this.lines += this.orig + "\n";
@@ -56,7 +56,7 @@ RedditConverter.prototype.endLine = function(meaning = "") {
 };
 RedditConverter.prototype.finish = function() {
 	this.output.html(this.lines);
-}
+};
 
 var PlaintextConverter = function (output, smallCaps) {
 	this.orig = "";
@@ -66,7 +66,7 @@ var PlaintextConverter = function (output, smallCaps) {
 
 	this.useSmallCaps = smallCaps;
 	this.output = output;
-}
+};
 PlaintextConverter.prototype.addPart = function(orig, gloss) {
 	this.orig += orig.join("") + " ";
 	for (var i = 0; i < gloss.length; i += 1) {
@@ -89,7 +89,7 @@ PlaintextConverter.prototype.addPart = function(orig, gloss) {
 		this.gloss += " ";
 	}
 };
-PlaintextConverter.prototype.endLine = function(meaning = "") {
+PlaintextConverter.prototype.endLine = function(meaning) {
 	this.lines += this.orig + "\n";
 	this.lines += this.gloss + "\n";
 	this.lines += meaning + "\n";
@@ -100,7 +100,7 @@ PlaintextConverter.prototype.endLine = function(meaning = "") {
 };
 PlaintextConverter.prototype.finish = function() {
 	this.output.html(this.lines);
-}
+};
 
 function toUnicodeSmallCaps(input) {
 	var table = [];
@@ -147,14 +147,14 @@ function toUnicodeSmallCaps(input) {
 
 function convertToReddit() {
 	var output = $("<textarea id=\"output\" readonly></textarea>");
-	conv = new RedditConverter(output, $("#smallcaps").is(":checked"));
+	var conv = new RedditConverter(output, $("#smallcaps").is(":checked"));
 	convert(conv);
 	$("#out").html("");
 	output.appendTo("#out");
 }
 function convertToPlain() {
 	var output = $("<textarea id=\"output\" readonly></textarea>");
-	conv = new PlaintextConverter(output, $("#smallcaps").is(":checked"));
+	var conv = new PlaintextConverter(output, $("#smallcaps").is(":checked"));
 	convert(conv);
 	$("#out").html("");
 	output.appendTo("#out");
