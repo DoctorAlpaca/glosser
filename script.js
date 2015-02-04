@@ -40,7 +40,7 @@ RedditConverter.prototype.endLine = function(meaning = "") {
 	this.lines += meaning + "\n";
 	this.lines += "\n";
 
-	this.orig = "";
+	this.orig = "|";
 	this.centerLine = "|";
 	this.gloss    = "|";
 };
@@ -48,9 +48,48 @@ RedditConverter.prototype.finish = function() {
 	this.output.html(this.lines);
 }
 
+var PlaintextConverter = function (output) {
+	this.orig = "";
+	this.gloss    = "";
+
+	this.lines = "";
+
+	this.output = output;
+}
+PlaintextConverter.prototype.addPart = function(orig, gloss) {
+	this.orig += orig.join("") + " ";
+	this.gloss += gloss.join("") + " ";
+
+	while (this.orig.length < this.gloss.length) {
+		this.orig += " ";
+	}
+	while (this.gloss.length < this.orig.length) {
+		this.gloss += " ";
+	}
+};
+PlaintextConverter.prototype.endLine = function(meaning = "") {
+	this.lines += this.orig + "\n";
+	this.lines += this.gloss + "\n";
+	this.lines += meaning + "\n";
+	this.lines += "\n";
+
+	this.orig = "";
+	this.gloss    = "";
+};
+PlaintextConverter.prototype.finish = function() {
+	this.output.html(this.lines);
+}
+
 function convertToReddit() {
 	var output = $("<textarea id=\"output\" readonly></textarea>");
 	conv = new RedditConverter(output);
+	convert(conv);
+	$("#out").html("");
+	output.appendTo("#out");
+}
+function convertToPlain() {
+	var output = $("<textarea id=\"output\" readonly></textarea>");
+	conv = new PlaintextConverter(output);
 	convert(conv);
 	$("#out").html("");
 	output.appendTo("#out");
@@ -81,14 +120,12 @@ function splitEntry(entry) {
 function convert(converter) {
 	var lines = $("#input").val().split("\n").map($.trim).filter(function(x) { return !(x === ""); });
 
-	console.log(lines);
-
 	var i = 0;
 	while (i < lines.length) {
 		var orig = lines[i];
 		i++; if (i >= lines.length) { alert("Uneven number of non-quoted lines"); break; }
 
-		var gloss = lines[i];
+		var gloss = lines[i]; 
 		i++;
 
 		var meaning = "";
@@ -112,4 +149,5 @@ function convert(converter) {
 
 $( window ).load(function() {
 	$("#reddit").click(convertToReddit);
+	$("#plain").click(convertToPlain);
 });

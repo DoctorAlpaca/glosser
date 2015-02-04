@@ -4,10 +4,8 @@ body {
 
 #buttons {
 	width: 100%;
-}
-
-#buttons input {
-	width: 100%;
+    display: table;
+    table-layout: fixed;
 }
 
 textarea {
