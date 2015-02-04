@@ -15,7 +15,7 @@ var RedditConverter = function (output, smallCaps) {
 	this.centerLine = "|";
 	this.gloss    = "|";
 
-	this.lines = "";
+	this.lines = "-----\n\n";
 
 	this.useSmallCaps = smallCaps;
 	this.output = output;
@@ -43,7 +43,7 @@ RedditConverter.prototype.endLine = function(meaning = "") {
 	this.lines += this.centerLine + "\n";
 	this.lines += this.gloss + "\n";
 	this.lines += "*" + meaning + "*" + "\n";
-	this.lines += "\n";
+	this.lines += "\n-----\n\n";
 
 	this.orig = "|";
 	this.centerLine = "|";
