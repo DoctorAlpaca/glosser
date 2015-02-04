@@ -8,6 +8,8 @@
  * finish() - Called once everything has been added. The time to display the result to the user.
  */
 
+var delimiters = ["-", "=", "."];
+
 // Converts to reddit friendly markdown
 var RedditConverter = function (output, smallCaps) {
 	// Empty header row to sopport left alignment
@@ -25,7 +27,7 @@ var RedditConverter = function (output, smallCaps) {
 RedditConverter.prototype.addPart = function(orig, gloss) {
 	this.orig += "***" + orig.join("") + "***";
 	for (var i = 0; i < gloss.length; i += 1) {
-		if (gloss[i].length > 1 && gloss[i] === gloss[i].toUpperCase()) {
+		if (delimiters.indexOf(gloss[i]) == -1 && gloss[i] === gloss[i].toUpperCase()) {
 			if (this.useSmallCaps) {
 				this.gloss += "*_" + gloss[i].toLowerCase() + "_*";
 			} else {
@@ -46,7 +48,9 @@ RedditConverter.prototype.endLine = function(meaning) {
 	this.lines += this.centerLine + "\n";
 	this.lines += this.orig + "\n";
 	this.lines += this.gloss + "\n";
-	this.lines += "*" + meaning + "*" + "\n";
+	if (!(meaning === "")) {
+		this.lines += "*" + meaning + "*" + "\n";
+	}
 	this.lines += "\n-----\n\n";
 
 	this.header = "|"
@@ -70,7 +74,7 @@ var PlaintextConverter = function (output, smallCaps) {
 PlaintextConverter.prototype.addPart = function(orig, gloss) {
 	this.orig += orig.join("") + " ";
 	for (var i = 0; i < gloss.length; i += 1) {
-		if (gloss[i].length > 1 && gloss[i] === gloss[i].toUpperCase()) {
+		if (delimiters.indexOf(gloss[i]) == -1 && gloss[i] === gloss[i].toUpperCase()) {
 			if (this.useSmallCaps) {
 				this.gloss += toUnicodeSmallCaps(gloss[i]);
 			} else {
@@ -166,7 +170,7 @@ function splitEntry(entry) {
 	var result = [];
 	var word = "";
 	for (var i = 0; i < entry.length; i++) {
-		if (["-", "=", "."].indexOf(entry[i]) != -1) {
+		if (delimiters.indexOf(entry[i]) != -1) {
 			result.push(word);
 			word = "";
 			result.push(entry[i]);
