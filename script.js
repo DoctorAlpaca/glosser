@@ -194,8 +194,8 @@ function convert(converter) {
 			i++;
 		}
 
-		var origEntries = orig.split(" ");
-		var glossEntries = gloss.split(" ");
+		var origEntries = orig.split(" ").map($.trim).filter(function(x) { return !(x === ""); });
+		var glossEntries = gloss.split(" ").map($.trim).filter(function(x) { return !(x === ""); });
 		if (origEntries.length != glossEntries.length) {
 			alert("Text and gloss have unequal number of parts!");
 		}
