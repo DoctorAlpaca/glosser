@@ -13,6 +13,7 @@
 	<div id="buttons">
 		<input type="button" value="To reddit markdown" id="reddit"></input>
 		<input type="button" value="To aligned plaintext" id="plain"></input>
+		<input type="checkbox" id="smallcaps" value="smallcaps"/><label for="smallcaps">Use small caps if possible</input>
 	</div>
 	<div id="out">
 		<h2>The format used:</h2>
@@ -22,8 +23,15 @@
 		<p>A example of valid input:</p>
 		<textarea id="example" readonly>Der Hund beiß-t den Mann
 the.NOM dog bite-3PS.SG the.ACC man
+'The dog bites the man'
+
+Den Mann beiß-t der Hund
+the.ACC man bite-3PS.SG the.NOM dog
 'The dog bites the man'</textarea>
 		<p>For more information on glossing in general, try <a href="http://www.eva.mpg.de/lingua/resources/glossing-rules.php">this site</a>.</p>
+		<h2>Notes on smallcaps:</h2>
+		<p>The plaintext small caps use special unicode code points which aren't available for all characters (not available for Q and X; S and F might be wonky).</p>
+		<p>The reddit small caps only work on subreddits that support it (/r/conlangs only).</p>
 	</div>
 </body>
 </html>

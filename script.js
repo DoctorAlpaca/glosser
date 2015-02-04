@@ -9,7 +9,7 @@
  */
 
 // Converts to reddit friendly markdown
-var RedditConverter = function (output) {
+var RedditConverter = function (output, smallCaps) {
 	this.orig = "|";
 	// Markdown needs a middle row to seperate heading from content
 	this.centerLine = "|";
@@ -17,13 +17,18 @@ var RedditConverter = function (output) {
 
 	this.lines = "";
 
+	this.useSmallCaps = smallCaps;
 	this.output = output;
 }
 RedditConverter.prototype.addPart = function(orig, gloss) {
 	this.orig += "***" + orig.join("") + "***";
 	for (var i = 0; i < gloss.length; i += 1) {
 		if (gloss[i].length > 1 && gloss[i] === gloss[i].toUpperCase()) {
-			this.gloss += "*_" + gloss[i].toLowerCase() + "_*";
+			if (this.useSmallCaps) {
+				this.gloss += "*_" + gloss[i].toLowerCase() + "_*";
+			} else {
+				this.gloss += gloss[i];
+			}
 		} else {
 			this.gloss += gloss[i];
 		}
@@ -37,7 +42,7 @@ RedditConverter.prototype.endLine = function(meaning = "") {
 	this.lines += this.orig + "\n";
 	this.lines += this.centerLine + "\n";
 	this.lines += this.gloss + "\n";
-	this.lines += meaning + "\n";
+	this.lines += "*" + meaning + "*" + "\n";
 	this.lines += "\n";
 
 	this.orig = "|";
@@ -48,17 +53,30 @@ RedditConverter.prototype.finish = function() {
 	this.output.html(this.lines);
 }
 
-var PlaintextConverter = function (output) {
+var PlaintextConverter = function (output, smallCaps) {
 	this.orig = "";
-	this.gloss    = "";
+	this.gloss = "";
 
 	this.lines = "";
 
+	this.useSmallCaps = smallCaps;
 	this.output = output;
 }
 PlaintextConverter.prototype.addPart = function(orig, gloss) {
 	this.orig += orig.join("") + " ";
-	this.gloss += gloss.join("") + " ";
+	for (var i = 0; i < gloss.length; i += 1) {
+		if (gloss[i].length > 1 && gloss[i] === gloss[i].toUpperCase()) {
+			console.log(this.useSmallCaps);
+			if (this.useSmallCaps) {
+				this.gloss += toUnicodeSmallCaps(gloss[i]);
+			} else {
+				this.gloss += gloss[i];
+			}
+		} else {
+			this.gloss += gloss[i];
+		}
+	}
+	this.gloss += " ";
 
 	while (this.orig.length < this.gloss.length) {
 		this.orig += " ";
@@ -80,16 +98,59 @@ PlaintextConverter.prototype.finish = function() {
 	this.output.html(this.lines);
 }
 
+function toUnicodeSmallCaps(input) {
+	var table = [];
+	table["A"] = "ᴀ";
+	table["B"] = "ʙ";
+	table["C"] = "ᴄ";
+	table["D"] = "ᴅ";
+	table["E"] = "ᴇ";
+	table["F"] = "ꜰ";
+	table["G"] = "ɢ";
+	table["H"] = "ʜ";
+	table["I"] = "ɪ";
+	table["J"] = "ᴊ";
+	table["K"] = "ᴋ";
+	table["L"] = "ʟ";
+	table["M"] = "ᴍ";
+	table["N"] = "ɴ";
+	table["O"] = "ᴏ";
+	table["P"] = "ᴘ";
+	// table["Q"] = "Q";
+	table["R"] = "ʀ";
+	table["S"] = "ꜱ";
+	table["T"] = "ᴛ";
+	table["U"] = "ᴜ";
+	table["V"] = "ᴠ";
+	table["W"] = "ᴡ";
+	// table["X"] = "X";
+	table["Y"] = "ʏ";
+	table["Z"] = "ᴢ";
+
+	var result = "";
+
+	for (var i = 0; i < input.length; i++) {
+		var c = input[i];
+		if (c in table) {
+			result += table[c];
+		} else {
+			result += c;
+		}
+	}
+
+	return result;
+}
+
 function convertToReddit() {
 	var output = $("<textarea id=\"output\" readonly></textarea>");
-	conv = new RedditConverter(output);
+	conv = new RedditConverter(output, $("#smallcaps").is(":checked"));
 	convert(conv);
 	$("#out").html("");
 	output.appendTo("#out");
 }
 function convertToPlain() {
 	var output = $("<textarea id=\"output\" readonly></textarea>");
-	conv = new PlaintextConverter(output);
+	conv = new PlaintextConverter(output, $("#smallcaps").is(":checked"));
 	convert(conv);
 	$("#out").html("");
 	output.appendTo("#out");
