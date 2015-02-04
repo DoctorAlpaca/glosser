@@ -1,5 +1,17 @@
+/**
+ * Every converter need to supply the following methods:
+ * addPart(orig, gloss) - Called everytime a new glossing entry should be added.
+ *     orig contains the word in the original language, split into parts
+ *     gloss contains the glossed version, split into parts
+ * endLine(meaning) - Called once an entire sentence has been added.
+ *     meaning contains the free translation of the sentence
+ * finish() - Called once everything has been added. The time to display the result to the user.
+ */
+
+// Converts to reddit friendly markdown
 var RedditConverter = function (output) {
 	this.orig = "|";
+	// Markdown needs a middle row to seperate heading from content
 	this.centerLine = "|";
 	this.gloss    = "|";
 
