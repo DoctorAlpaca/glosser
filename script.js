@@ -66,7 +66,6 @@ PlaintextConverter.prototype.addPart = function(orig, gloss) {
 	this.orig += orig.join("") + " ";
 	for (var i = 0; i < gloss.length; i += 1) {
 		if (gloss[i].length > 1 && gloss[i] === gloss[i].toUpperCase()) {
-			console.log(this.useSmallCaps);
 			if (this.useSmallCaps) {
 				this.gloss += toUnicodeSmallCaps(gloss[i]);
 			} else {
