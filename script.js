@@ -10,9 +10,11 @@
 
 // Converts to reddit friendly markdown
 var RedditConverter = function (output, smallCaps) {
-	this.orig = "|";
+	// Empty header row to sopport left alignment
+	this.header = "|"
 	// Markdown needs a middle row to seperate heading from content
 	this.centerLine = "|";
+	this.orig = "|";
 	this.gloss    = "|";
 
 	this.lines = "-----\n\n";
@@ -34,19 +36,22 @@ RedditConverter.prototype.addPart = function(orig, gloss) {
 		}
 	}
 
+	this.header += "|";
 	this.orig += "|";
-	this.centerLine += "-|";
+	this.centerLine += ":-|";
 	this.gloss += "|";
 };
 RedditConverter.prototype.endLine = function(meaning = "") {
-	this.lines += this.orig + "\n";
+	this.lines += this.header + "\n";
 	this.lines += this.centerLine + "\n";
+	this.lines += this.orig + "\n";
 	this.lines += this.gloss + "\n";
 	this.lines += "*" + meaning + "*" + "\n";
 	this.lines += "\n-----\n\n";
 
-	this.orig = "|";
+	this.header = "|"
 	this.centerLine = "|";
+	this.orig = "|";
 	this.gloss    = "|";
 };
 RedditConverter.prototype.finish = function() {
