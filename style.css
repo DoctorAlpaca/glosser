@@ -1,0 +1,22 @@
+body {
+	padding: 5px 20px 5px 20px;
+}
+
+#buttons {
+	width: 100%;
+}
+
+#buttons input {
+	width: 100%;
+}
+
+textarea {
+	width: 100%;
+}
+
+#input, #output {
+	height: 20em;
+}
+#example {
+	height: 10em;
+}

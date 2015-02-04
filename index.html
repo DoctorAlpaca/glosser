@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Glosser</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="script.js"></script>
+</head>
+<body>
+	<p>Enter glossed text below:</p>
+	<textarea id="input"></textarea>
+	<div id="buttons">
+		<input type="button" value="To reddit markdown" id="reddit"></input>
+	</div>
+	<div id="out">
+		<h2>The format used:</h2>
+		<p>Every glossed sentence is composed of two or three lines: One containing the sentence in the original language, one containing the gloss and one optional line containing a more free form translation. Multiple sentences can be entered at the same time.</p>
+		<p>The first two lines must have an equal number of words (sections seperated by spaces). Each word may consist of multiple parts, seperated by either a dash (<code>-</code>), a dot (<code>.</code>) or an equal sign (<code>=</code>). Any segment written in all capital letters in the gloss will be output as smallcaps if possible.</p>
+		<p>The third line (if wanted) must start with either a single or double quote (<code>'</code> or <code>"</code>).</p>
+		<p>A example of valid input:</p>
+		<textarea id="example" readonly>Der Hund beiß-t den Mann
+the.NOM dog bite-3PS.SG the.ACC man
+'The dog bites the man'</textarea>
+		<p>For more information on glossing in general, try <a href="http://www.eva.mpg.de/lingua/resources/glossing-rules.php">this site</a>.</p>
+	</div>
+</body>
+</html>
